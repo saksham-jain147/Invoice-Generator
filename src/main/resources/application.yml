@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: INVOICE-GENERATOR
+
+server:
+  port: 8080
+
+#invoice:
+#  filepath: C:/Users/SJAIN26/OneDrive/Desktop/DocumentGenerator/

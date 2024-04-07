@@ -1,3 +1,4 @@
+<h3 style="text-align:center"><u>INVOICE</u></h3>
 <table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width="100%"
        style='width:100.0%;border-collapse:collapse;border:none'>
     <tr style='height:103.85pt'>
@@ -6,11 +7,11 @@
             style='width:50.0%;border:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:140pt'>
             <p class=MsoNormal style="padding-left: 20pt;">Seller:<o:p></o:p>
             </p>
-            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">${invoice.seller}<o:p></o:p>
+            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;"><span th:text="${invoice.seller}">Seller</span><o:p></o:p>
             </p>
-            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">${invoice.sellerAddress}<o:p></o:p>
+            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;"><span th:text="${invoice.sellerAddress}">Seller Address</span><o:p></o:p>
             </p>
-            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">GSTIN: ${invoice.sellerGstin}<o:p></o:p>
+            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">GSTIN: <span th:text="${invoice.sellerGstin}">Seller GSTIN</span><o:p></o:p>
             </p>
         </td>
         <!-- BUYER BLOCK -->
@@ -18,53 +19,56 @@
             style='width:50.0%;border:solid windowtext 1.5pt;border-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:103.85pt'>
             <p class=MsoNormal style="padding-left: 20pt;">Buyer:<o:p></o:p>
             </p>
-            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">${invoice.buyer}<o:p></o:p>
+            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;"><span th:text="${invoice.buyer}">Buyer</span><o:p></o:p>
             </p>
-            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">${invoice.buyerAddress}<o:p></o:p>
+            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;"><span th:text="${invoice.buyerAddress}">Buyer Address</span><o:p></o:p>
             </p>
-            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">GSTIN: ${invoice.buyerGstin}<o:p></o:p>
+            <p class=MsoNormal style="line-height: 0.5; padding-left: 20pt;">GSTIN: <span th:text="${invoice.buyerGstin}">Buyer GSTIN</span><o:p></o:p>
             </p>
         </td>
     </tr>
+</table>
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0 width="100%"
+       style='width:100.0%;border-collapse:collapse;border:none'>
     <!-- TABLE HEADER -->
     <tr style='height:27.4pt'>
-        <td width="25%"
-            style='width:25.0%;border:solid windowtext 1.5pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
+        <td width="40%"
+            style='width:40.0%;border:solid windowtext 1.5pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
             <p class=MsoNormal align=center style='text-align:center'><b>Item<o:p></o:p></b></p>
         </td>
-        <td width="25%"
-            style='width:25.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
+        <td width="20%"
+            style='width:20.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
             <p class=MsoNormal align=center style='text-align:center'><b>Quantity<o:p></o:p></b></p>
         </td>
-        <td width="25%"
-            style='width:25.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
+        <td width="20%"
+            style='width:20.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
             <p class=MsoNormal align=center style='text-align:center'><b>Rate<o:p></o:p></b></p>
         </td>
-        <td width="25%"
-            style='width:25.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
+        <td width="20%"
+            style='width:20.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.4pt'>
             <p class=MsoNormal align=center style='text-align:center'><b>Amount<o:p></o:p></b></p>
         </td>
     </tr>
     <!-- CONTENT -->
     <tr style='height:20.55pt' th:each="item : ${invoice.items}">
-        <td width="25%"
-            style='width:25.0%;border:solid windowtext 1.5pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
-            <p class=MsoNormal align=center style='text-align:center'>${item.name}<o:p></o:p>
+        <td width="40%"
+            style='width:40.0%;border:solid windowtext 1.5pt;border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
+            <p class=MsoNormal align=center style='text-align:center'><span th:text="${item.name}">Item Name</span><o:p></o:p>
             </p>
         </td>
-        <td width="25%"
-            style='width:25.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
-            <p class=MsoNormal align=center style='text-align:center'>${item.quantity}<o:p></o:p>
+        <td width="20%"
+            style='width:20.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
+            <p class=MsoNormal align=center style='text-align:center'><span th:text="${item.quantity}">Quantity</span><o:p></o:p>
             </p>
         </td>
-        <td width="25%"
-            style='width:25.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
-            <p class=MsoNormal align=center style='text-align:center'>${item.rate}<o:p></o:p>
+        <td width="20%"
+            style='width:20.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
+            <p class=MsoNormal align=center style='text-align:center'><span th:text="${item.rate}">Rate</span><o:p></o:p>
             </p>
         </td>
-        <td width="25%"
-            style='width:25.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
-            <p class=MsoNormal align=center style='text-align:center'>${item.amount}<o:p></o:p>
+        <td width="20%"
+            style='width:20.0%;border-top:none;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.55pt'>
+            <p class=MsoNormal align=center style='text-align:center'><span th:text="${item.amount}">Amount</span><o:p></o:p>
             </p>
         </td>
     </tr>
