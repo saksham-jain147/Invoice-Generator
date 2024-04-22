@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 @Service
 public class DocumentGenerator {
@@ -61,10 +62,15 @@ public class DocumentGenerator {
      * @return A ResponseEntity containing the PDF content as byte array and appropriate content type.
      * @throws IOException If an error occurs while reading the file.
      */
-    public ResponseEntity<byte[]> downloadExistingPDF(String fileName) throws IOException {
-        // Read the PDF file content as a byte array
-        byte[] pdfBytes = readFile(fileName);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(pdfBytes);
+    public void downloadExistingPDF(String fileName) throws IOException {
+        File pdfFile = new File(getUserDownloadsFolder() + fileName + ".pdf");
+        // Read the existing PDF content
+        byte[] pdfData = Files.readAllBytes(pdfFile.toPath());
+
+        // Overwriting the existing file
+        Files.write(pdfFile.toPath(), pdfData);
+
+        logger.info("Downloaded existing PDF: " + getUserDownloadsFolder() + fileName + ".pdf");
     }
 
     /**
