@@ -1,6 +1,7 @@
 package com.sjain.invoicegenerator.controller;
 
 import com.sjain.invoicegenerator.entity.Invoice;
+import com.sjain.invoicegenerator.entity.Statement;
 import com.sjain.invoicegenerator.service.DataMapper;
 import com.sjain.invoicegenerator.service.DocumentGenerator;
 import com.sjain.invoicegenerator.service.FileNameGenerator;
@@ -40,10 +41,10 @@ public class DocumentController {
      * @throws NoSuchAlgorithmException If the hashing algorithm is not available.
      * @throws IOException If an error occurs while generating or reading the PDF file.
      */
-    @PostMapping("/generateInvoice")
+    @PostMapping("/v1/generateInvoice")
     public ResponseEntity<String> generateDocument(@RequestBody Invoice invoice) throws NoSuchAlgorithmException, IOException {
         // Checking if PDF with same data exists
-        String fileName = fileNameGenerator.generateFileName(invoice);
+        String fileName = fileNameGenerator.generateFileName(invoice.toString());
         if(documentGeneratorService.isFileExist(fileName)){
             documentGeneratorService.downloadExistingPDF(fileName);
             return new ResponseEntity<>("Success", HttpStatus.OK);
@@ -52,7 +53,26 @@ public class DocumentController {
         // Generating PDF content using Thymeleaf template when PDF is not found
         String finalHtml = null;
         Context dataContext = dataMapper.setData(invoice);
-        finalHtml = springTemplateEngine.process("template", dataContext);
+        finalHtml = springTemplateEngine.process("invoiceTemplate", dataContext);     // INVOICE
+//        finalHtml = springTemplateEngine.process("accountStatementTemplate", dataContext);  // STATEMENT
+        documentGeneratorService.convertHtmlToPdf(finalHtml, fileName);
+
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+
+    @PostMapping("/v2/exportStatement")
+    public ResponseEntity<String> exportStatement(@RequestBody Statement statement) throws NoSuchAlgorithmException, IOException {
+        // Checking if PDF with same data exists
+        String fileName = fileNameGenerator.generateFileName(statement.toString());
+        if(documentGeneratorService.isFileExist(fileName)){
+            documentGeneratorService.downloadExistingPDF(fileName);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        }
+
+        // Generating PDF content using Thymeleaf template when PDF is not found
+        String finalHtml = null;
+        Context dataContext = dataMapper.setData(statement);
+        finalHtml = springTemplateEngine.process("accountStatementTemplate", dataContext);  // STATEMENT
         documentGeneratorService.convertHtmlToPdf(finalHtml, fileName);
 
         return new ResponseEntity<>("Success", HttpStatus.OK);

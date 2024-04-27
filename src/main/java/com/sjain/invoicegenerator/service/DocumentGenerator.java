@@ -59,7 +59,6 @@ public class DocumentGenerator {
      * Downloads an existing PDF file from the user's Downloads folder.
      *
      * @param fileName The name of the PDF file to download.
-     * @return A ResponseEntity containing the PDF content as byte array and appropriate content type.
      * @throws IOException If an error occurs while reading the file.
      */
     public void downloadExistingPDF(String fileName) throws IOException {
@@ -111,7 +110,7 @@ public class DocumentGenerator {
     public String getUserDownloadsFolder() {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
-            return System.getenv("userprofile") + "\\Downloads\\";
+            return System.getenv("userprofile") + "\\Downloads\\Invoices\\";
         } else if (os.contains("mac")) {
             return System.getProperty("user.home") + "/Downloads/";
         } else {

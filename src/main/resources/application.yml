@@ -1,9 +1,9 @@
 spring:
   application:
-    name: INVOICE-GENERATOR
+    name: DYNAMIC-PDF-GENERATOR
 
 server:
-  port: 8080
+  port: 9090
 
 #invoice:
 #  filepath: C:/Users/SJAIN26/OneDrive/Desktop/DocumentGenerator/
