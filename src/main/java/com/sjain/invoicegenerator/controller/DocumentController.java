@@ -43,38 +43,46 @@ public class DocumentController {
      */
     @PostMapping("/v1/generateInvoice")
     public ResponseEntity<String> generateDocument(@RequestBody Invoice invoice) throws NoSuchAlgorithmException, IOException {
-        // Checking if PDF with same data exists
-        String fileName = fileNameGenerator.generateFileName(invoice.toString());
-        if(documentGeneratorService.isFileExist(fileName)){
-            documentGeneratorService.downloadExistingPDF(fileName);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+        try{
+            // Checking if PDF with same data exists
+            String fileName = fileNameGenerator.generateFileName(invoice.toString());
+            if (documentGeneratorService.isFileExist(fileName)) {
+                String message = documentGeneratorService.downloadExistingPDF(fileName);
+                return new ResponseEntity<>(message, HttpStatus.OK);
+            }
+
+            // Generating PDF content using Thymeleaf template when PDF is not found
+            String finalHtml = null;
+            Context dataContext = dataMapper.setData(invoice);
+            finalHtml = springTemplateEngine.process("invoiceTemplate", dataContext);     // INVOICE
+    //        finalHtml = springTemplateEngine.process("accountStatementTemplate", dataContext);  // STATEMENT
+            String message = documentGeneratorService.convertHtmlToPdf(finalHtml, fileName);
+
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
-
-        // Generating PDF content using Thymeleaf template when PDF is not found
-        String finalHtml = null;
-        Context dataContext = dataMapper.setData(invoice);
-        finalHtml = springTemplateEngine.process("invoiceTemplate", dataContext);     // INVOICE
-//        finalHtml = springTemplateEngine.process("accountStatementTemplate", dataContext);  // STATEMENT
-        documentGeneratorService.convertHtmlToPdf(finalHtml, fileName);
-
-        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @PostMapping("/v2/exportStatement")
     public ResponseEntity<String> exportStatement(@RequestBody Statement statement) throws NoSuchAlgorithmException, IOException {
-        // Checking if PDF with same data exists
-        String fileName = fileNameGenerator.generateFileName(statement.toString());
-        if(documentGeneratorService.isFileExist(fileName)){
-            documentGeneratorService.downloadExistingPDF(fileName);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+        try {
+            // Checking if PDF with same data exists
+            String fileName = fileNameGenerator.generateFileName(statement.toString());
+            if (documentGeneratorService.isFileExist(fileName)) {
+                String message = documentGeneratorService.downloadExistingPDF(fileName);
+                return new ResponseEntity<>(message, HttpStatus.OK);
+            }
+
+            // Generating PDF content using Thymeleaf template when PDF is not found
+            String finalHtml = null;
+            Context dataContext = dataMapper.setData(statement);
+            finalHtml = springTemplateEngine.process("accountStatementTemplate", dataContext);  // STATEMENT
+            String message = documentGeneratorService.convertHtmlToPdf(finalHtml, fileName);
+
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch(Exception e){
+            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
-
-        // Generating PDF content using Thymeleaf template when PDF is not found
-        String finalHtml = null;
-        Context dataContext = dataMapper.setData(statement);
-        finalHtml = springTemplateEngine.process("accountStatementTemplate", dataContext);  // STATEMENT
-        documentGeneratorService.convertHtmlToPdf(finalHtml, fileName);
-
-        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 }
