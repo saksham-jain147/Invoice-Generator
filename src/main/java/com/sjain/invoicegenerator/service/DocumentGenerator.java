@@ -24,9 +24,10 @@ public class DocumentGenerator {
      * Converts HTML content to PDF and saves it to the user's Downloads folder.
      *
      * @param processedHtml The processed HTML string to convert to PDF.
+     * @return The filepath message.
      * @param fileName The desired filename for the generated PDF.
      */
-    public void convertHtmlToPdf(String processedHtml, String fileName){
+    public String convertHtmlToPdf(String processedHtml, String fileName){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         try{
@@ -49,9 +50,10 @@ public class DocumentGenerator {
             byteArrayOutputStream.close();
             byteArrayOutputStream.flush();
             fout.close();
+            return "File saved to: " + getUserDownloadsFolder() + fileName + ".pdf";
 
         } catch (Exception e){
-            System.out.println("Exception occurred : " + e);
+            throw  new RuntimeException("Exception occurred : " + e);
         }
     }
 
@@ -59,18 +61,23 @@ public class DocumentGenerator {
      * Downloads an existing PDF file from the user's Downloads folder.
      *
      * @param fileName The name of the PDF file to download.
-     * @return A ResponseEntity containing the PDF content as byte array and appropriate content type.
+     * @return The filepath message.
      * @throws IOException If an error occurs while reading the file.
      */
-    public void downloadExistingPDF(String fileName) throws IOException {
-        File pdfFile = new File(getUserDownloadsFolder() + fileName + ".pdf");
-        // Read the existing PDF content
-        byte[] pdfData = Files.readAllBytes(pdfFile.toPath());
+    public String downloadExistingPDF(String fileName) throws IOException {
+        try {
+            File pdfFile = new File(getUserDownloadsFolder() + fileName + ".pdf");
+            // Read the existing PDF content
+            byte[] pdfData = Files.readAllBytes(pdfFile.toPath());
 
-        // Overwriting the existing file
-        Files.write(pdfFile.toPath(), pdfData);
+            // Overwriting the existing file
+            Files.write(pdfFile.toPath(), pdfData);
 
-        logger.info("Downloaded existing PDF: " + getUserDownloadsFolder() + fileName + ".pdf");
+            logger.info("Downloaded existing PDF: " + getUserDownloadsFolder() + fileName + ".pdf");
+            return "Downloaded existing PDF: " + getUserDownloadsFolder() + fileName + ".pdf";
+        } catch (Exception e){
+            throw  new RuntimeException("Exception occurred : " + e);
+        }
     }
 
     /**

@@ -11,15 +11,15 @@ import java.security.NoSuchAlgorithmException;
 public class FileNameGenerator {
 
     /**
-     * Generates a unique filename based on the content of an Invoice object.
+     * Generates a unique filename based on the content of an String.
      *
-     * @param invoice The Invoice object for which to generate a filename.
+     * @param dataString The String for which to generate a filename.
      * @return A unique filename string derived from the Invoice data.
      * @throws NoSuchAlgorithmException If the requested hashing algorithm ("SHA-256") is not available.
      */
-    public String generateFileName(Invoice invoice) throws NoSuchAlgorithmException {
+    public String generateFileName(String dataString) throws NoSuchAlgorithmException {
         // Converting the Invoice object to a String representation
-        String dataString = invoice.toString();
+//        String dataString = invoice.toString();
 
         // Creating a MessageDigest object using the SHA-256 algorithm for hashing
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
